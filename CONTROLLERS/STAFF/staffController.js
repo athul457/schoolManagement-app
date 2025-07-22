@@ -63,7 +63,9 @@ exports.staffLogin = asyncHandler(async (req, res) => {
 
 // ! get all staff
 exports.getAllStaffs = asyncHandler(async (req, res) => {
-  const admin = await Admin.find().select("-password");
+  const admin = await Admin.find()
+    .select("-password")
+    .populate("academicYears academicTerms");
   res.status(200).json({
     status: "ok",
     message: "data fetched successfully 😍😍😍😍😍😍😍",

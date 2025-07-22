@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const AcademicYear = require("../../MODEL/ACCADEMIC/AcademicYear");
+const Admin = require("../../MODEL/STAFF/Admin");
 
 // create accademic calander
 exports.createAcademicYear = asyncHandler(async (req, res) => {
@@ -25,6 +26,10 @@ exports.createAcademicYear = asyncHandler(async (req, res) => {
     createdBy: req.user.user_id,
   });
 
+  const admin = await Admin.findById(req.user.user_id);
+  admin.academicYears = admin.academicYears || [];
+  admin.academicYears.push(calander._id);
+  await admin.save();
   res.status(201).json({
     status: "ok",
     message: "accademic year created",
@@ -53,7 +58,7 @@ exports.getSingleAcademicYear = asyncHandler(async (req, res) => {
 
   if (req.user.role !== "admin") {
     res.status(400);
-    throw new Error("Access denied : only admins");
+    throw new Error("Access denied : only admins can access single calender");
   }
   const calander = await AcademicYear.findById(id);
   if (!calander) {

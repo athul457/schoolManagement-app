@@ -10,7 +10,7 @@ accademicRoute
 
 accademicRoute
   .route("/year/:id")
-  .get(authAdmin, isAdmin, accademicYearController.getSingleAcademicYear);
+  .get(authAdmin, accademicYearController.getSingleAcademicYear);
 
 accademicRoute
   .route("/year")
