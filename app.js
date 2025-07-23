@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const errorHandler = require("./MIDDLEWARES/errorHandler");
 app.use(morgan("dev"));
 app.use(express.json());
-const staffRoute = require("./ROUTERS/STAFF/staffRoute");
+const adminRoute = require("./ROUTERS/STAFF/adminRouter");
 const accademicRoute = require("./ROUTERS/ACCADEMIC/accademicYearRouter");
 const accademicTermsRoute = require("./ROUTERS/ACCADEMIC/accademicTermsRouter");
 const classRouter = require("./ROUTERS/ACCADEMIC/classLevelRouters");
@@ -13,7 +13,7 @@ const subjectRoute = require("./ROUTERS/ACCADEMIC/subjectRoute");
 const yearGroupRoute = require("./ROUTERS/ACCADEMIC/yearGroupRoute");
 const teacherRoute = require("./ROUTERS/STAFF/teacherRoute");
 
-app.use("/api/v1/admin", staffRoute);
+app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/admin", teacherRoute);
 
 app.use("/api/v1/academic", accademicRoute);
