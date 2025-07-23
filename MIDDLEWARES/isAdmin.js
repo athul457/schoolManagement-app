@@ -5,7 +5,6 @@ const isAdmin = asyncHandler(async (req, res, next) => {
     res.status(403);
     throw new Error("Access denied: Admins only");
   }
-
   next();
 });
 

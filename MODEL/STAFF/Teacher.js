@@ -1,4 +1,6 @@
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const teacherSchema = new mongoose.Schema(
   {
     name: {
@@ -19,7 +21,7 @@ const teacherSchema = new mongoose.Schema(
     },
     teacherId: {
       type: String,
-      required: true,
+      // required: true,
       default: function () {
         return (
           "TEA" +
@@ -27,7 +29,7 @@ const teacherSchema = new mongoose.Schema(
           Date.now().toString().slice(2, 4) +
           this.name
             .split(" ")
-            .map(name => name[0])
+            .map((name) => name[0])
             .join("")
             .toUpperCase()
         );
@@ -77,7 +79,7 @@ const teacherSchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admin",
-      // required: true,
+      required: true,
     },
     academicTerm: {
       type: String,
@@ -87,6 +89,29 @@ const teacherSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+teacherSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+teacherSchema.methods.matchPassword = async function (enterdPassword) {
+  return await bcrypt.compare(enterdPassword, this.password);
+};
+
+teacherSchema.methods.generateToken = function () {
+  return jwt.sign(
+    {
+      user_id: this._id,
+      name: this.name,
+      email: this.email,
+    },
+    process.env.SECRETE_ACCESS_KEY,
+    { expiresIn: "1d" }
+  );
+};
 
 //model
 const Teacher = mongoose.model("Teacher", teacherSchema);

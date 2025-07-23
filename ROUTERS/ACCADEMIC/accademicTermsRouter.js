@@ -6,22 +6,13 @@ const isAdmin = require("../../MIDDLEWARES/isAdmin");
 
 accademicTermsRoute
   .route("/")
-  .get(authAdmin, isAdmin, academicTerms.getAllAccademicTerm);
-
-accademicTermsRoute
-  .route("/:id")
-  .get(authAdmin, isAdmin, academicTerms.getSingleAccademicTerm);
-
-accademicTermsRoute
-  .route("/")
+  .get(authAdmin, isAdmin, academicTerms.getAllAccademicTerm)
   .post(authAdmin, academicTerms.createAccademicTerm);
 
 accademicTermsRoute
   .route("/:id")
-  .patch(authAdmin, isAdmin, academicTerms.updateAccademicTerm);
-
-accademicTermsRoute
-  .route("/:id")
+  .get(authAdmin, isAdmin, academicTerms.getSingleAccademicTerm)
+  .patch(authAdmin, isAdmin, academicTerms.updateAccademicTerm)
   .delete(authAdmin, isAdmin, academicTerms.deleteAccademicTerm);
 
 module.exports = accademicTermsRoute;

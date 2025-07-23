@@ -1,23 +1,22 @@
-const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
-const Admin = require("../MODEL/STAFF/Admin");
+const Teacher = require("../MODEL/STAFF/Teacher");
+const jwt = require("jsonwebtoken");
 
-const authAdmin = asyncHandler(async (req, res, next) => {
+const authTeacher = asyncHandler(async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     res.status(401);
-    throw new Error("No Token Provided");
+    throw new Error("Token Not Privided");
   }
 
   const token = authHeader.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, process.env.SECRETE_ACCESS_KEY);
-    const admin = await Admin.findById(decoded.user_id).select("-password");
-
-    if (!admin) {
+    const teacher = await Teacher.findById(decoded.user_id);
+    if (!teacher) {
       res.status(404);
-      throw new Error("admin not found");
+      throw new Error("Teacher not Found");
     }
 
     req.user = {
@@ -26,13 +25,13 @@ const authAdmin = asyncHandler(async (req, res, next) => {
       email: decoded.email,
       role: decoded.role,
     };
-    console.log(req.user);
     next();
   } catch (err) {
-    console.error(err.message);
-    res.status(401);
-    throw new Error("Invalid token or expired token or you are not and admin");
+    res.status(400);
+    throw new Error(
+      "Invalid token or expired token or you are not and Teacher"
+    );
   }
 });
 
-module.exports = authAdmin;
+module.exports = authTeacher;

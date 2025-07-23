@@ -5,22 +5,16 @@ const isAdmin = require("../../MIDDLEWARES/isAdmin");
 const authAdmin = require("../../MIDDLEWARES/authAdmin");
 
 accademicRoute
+  .route("/year")
+  .post(authAdmin, isAdmin, accademicYearController.createAcademicYear);
+accademicRoute
   .route("/")
   .get(authAdmin, accademicYearController.getAllAcademicYear);
 
 accademicRoute
   .route("/year/:id")
-  .get(authAdmin, accademicYearController.getSingleAcademicYear);
-
-accademicRoute
-  .route("/year")
-  .post(authAdmin, isAdmin, accademicYearController.createAcademicYear);
-accademicRoute
-  .route("/year/:id")
+  .get(authAdmin, accademicYearController.getSingleAcademicYear)
+  .delete(authAdmin, isAdmin, accademicYearController.deleteAcademicYear)
   .patch(authAdmin, isAdmin, accademicYearController.updateAcademicYear);
-
-accademicRoute
-  .route("/year/:id")
-  .delete(authAdmin, isAdmin, accademicYearController.deleteAcademicYear);
 
 module.exports = accademicRoute;
