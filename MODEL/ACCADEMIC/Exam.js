@@ -17,28 +17,27 @@ const examSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Subject",
       required: true,
+      // type: String,
     },
     program: {
       type: Schema.Types.ObjectId,
       ref: "Program",
       required: true,
+      // type: String,
     },
     passMark: {
+      // type: String,
       type: Number,
       required: true,
       default: 50,
     },
     totalMark: {
+      // type: String,
       type: Number,
       required: true,
       default: 100,
     },
 
-    academicTerm: {
-      type: Schema.Types.ObjectId,
-      ref: "AcademicTerm",
-      required: true,
-    },
     duration: {
       type: String,
       required: true,
@@ -46,6 +45,7 @@ const examSchema = new Schema(
     },
     examDate: {
       type: Date,
+      // type: String,
       required: true,
       default: new Date(),
     },
@@ -71,6 +71,7 @@ const examSchema = new Schema(
       },
     ],
     classLevel: {
+      // type: String,
       type: Schema.Types.ObjectId,
       ref: "ClassLevel",
       required: true,
@@ -81,11 +82,13 @@ const examSchema = new Schema(
       required: true,
     },
     academicTerm: {
+      // type: String,
       type: Schema.Types.ObjectId,
       ref: "AcademicTerm",
       required: true,
     },
     academicYear: {
+      // type: String,
       type: Schema.Types.ObjectId,
       ref: "AcademicYear",
       required: true,

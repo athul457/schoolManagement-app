@@ -14,4 +14,17 @@ teacherRoute
   .route("/teacher")
   .get(authAdmin, isAdmin, teacherController.getAllTeachers);
 
+teacherRoute
+  .route("/teacher/:id")
+  .get(authAdmin, isAdmin, teacherController.getSingleTeacher);
+teacherRoute
+  .route("/teacher/teacher/:id")
+  .get(authTeacher, isTeacher, teacherController.getOnlyTeacherData);
+teacherRoute
+  .route("/teacher/teacher/:id")
+  .patch(authTeacher, isTeacher, teacherController.updateTeacher);
+teacherRoute
+  .route("/teacher/admin/:id")
+  .patch(authAdmin, isAdmin, teacherController.adminUpdateTeacher);
+
 module.exports = teacherRoute;

@@ -50,9 +50,10 @@ const teacherSchema = new mongoose.Schema(
       default: "teacher",
     },
     subject: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Subject",
+      // type: mongoose.Schema.Types.ObjectId,
+      // ref: "Subject",
       // required: true,
+      type: String,
     },
     applicationStatus: {
       type: String,

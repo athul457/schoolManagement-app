@@ -1,4 +1,6 @@
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const studentSchema = new mongoose.Schema(
   {
     name: {
@@ -23,7 +25,7 @@ const studentSchema = new mongoose.Schema(
           Date.now().toString().slice(2, 4) +
           this.name
             .split(" ")
-            .map(name => name[0])
+            .map((name) => name[0])
             .join("")
             .toUpperCase()
         );
@@ -116,6 +118,31 @@ const studentSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+studentSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+studentSchema.methods.matchPassword = async function (enterdPassword) {
+  return bcrypt.compare(enterdPassword, this.password);
+};
+
+studentSchema.methods.generateToken = function () {
+  return jwt.sign(
+    {
+      name: this.name,
+      email: this.email,
+      user_id: this._id,
+      role: "student",
+    },
+    process.env.SECRETE_ACCESS_KEY,
+    {
+      expiresIn: "1d",
+    }
+  );
+};
 
 //model
 const Student = mongoose.model("Student", studentSchema);
