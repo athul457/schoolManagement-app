@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Exam = require("../../MODEL/ACCADEMIC/Exam");
 const Teacher = require("../../MODEL/STAFF/Teacher");
+const { path } = require("../../app");
 
 // ! create exam
 exports.createExam = asyncHandler(async (req, res) => {
@@ -89,7 +90,12 @@ exports.createExam = asyncHandler(async (req, res) => {
 // ! get all exam
 
 exports.getAllExam = asyncHandler(async (req, res) => {
-  const exam = await Exam.find();
+  const exam = await Exam.find().populate({
+    path: "questions",
+    populate: {
+      path: "createdBy",
+    },
+  });
   res.status(200).json({
     status: "ok",
     message: "all exam fetched succeccfully",

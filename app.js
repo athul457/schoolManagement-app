@@ -14,7 +14,7 @@ const yearGroupRoute = require("./ROUTERS/ACCADEMIC/yearGroupRoute");
 const teacherRoute = require("./ROUTERS/STAFF/teacherRoute");
 const examRoute = require("./ROUTERS/ACCADEMIC/examRouter");
 const studentRoute = require("./ROUTERS/STUDENT/studentRoute");
-
+const questionRoute = require("./ROUTERS/ACCADEMIC/questionsRouter");
 // STAFF
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/admin", teacherRoute);
@@ -28,6 +28,7 @@ app.use("/api/v1/subject", subjectRoute);
 app.use("/api/v1/year", yearGroupRoute);
 app.use("/api/v1/teacher", examRoute);
 app.use("/api/v1/admin", studentRoute);
+app.use("/api/v1/questions", questionRoute);
 
 app.use(errorHandler);
 module.exports = app;

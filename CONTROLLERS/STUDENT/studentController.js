@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Student = require("../../MODEL/ACCADEMIC/Student");
-const Teacher = require("../../MODEL/STAFF/Teacher");
-const { namedDelete } = require("jsdom/lib/jsdom/living/generated/utils");
+const Exam = require("../../MODEL/ACCADEMIC/Exam");
 
 // ! student register
 
@@ -165,5 +164,55 @@ exports.adminAssignStudent = asyncHandler(async (req, res) => {
     status: "ok",
     message: "student updated successfully ",
     updatedStudent,
+  });
+});
+
+// ! student write exam
+exports.writeExam = asyncHandler(async (req, res) => {
+  const student = await Student.findById(req.user.user_id);
+  if (!student) {
+    res.status(404);
+    throw new Error("Student not found");
+  }
+
+  const exam = await Exam.findById(req.params.id).populate("questions");
+  if (!exam) {
+    res.status(404);
+    throw new Error("exam not found");
+  }
+  //  get questions
+  const questions = exam.questions;
+  // get answers
+  const studentAnswers = req.body.answers;
+  if (studentAnswers.length !== questions.length) {
+    res.status(400);
+    throw new Error("You are not answerd all questions");
+  }
+
+  let correctAnswer = 0;
+  let score = 0;
+  let wrongAnsers = 0;
+  let grade = 0;
+  let totalQuestions = 0;
+
+  for (let i = 0; i < questions.length; i++) {
+    const question = questions[i];
+    totalQuestions = questions.length;
+    if (question.correctAnswer === studentAnswers[i]) {
+      correctAnswer++;
+      score++;
+      question.isCorrect = true;
+    } else {
+      wrongAnsers++;
+    }
+  }
+
+  res.status(200).json({
+    status: "writing exam",
+    totalQuestions,
+    questions,
+    correctAnswer,
+    wrongAnsers,
+    score,
   });
 });

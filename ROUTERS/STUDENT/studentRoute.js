@@ -26,4 +26,8 @@ studentRoute
   .route("/student/:id")
   .patch(authAdmin, isAdmin, studentController.updateStudent);
 
+studentRoute
+  .route("/student/exam/write/:id")
+  .post(authStudent, studentController.writeExam);
+
 module.exports = studentRoute;
