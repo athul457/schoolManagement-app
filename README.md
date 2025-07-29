@@ -6,17 +6,18 @@ This is the **backend API** for a School Management System, built with **Node.js
 
 ## 📁 Project Structure
 
-schoolManagement-app-master/
-CONFIG/ # Database connection & config files
-CONTROLLERS/ # Business logic for routes
-MIDDLEWARES/ # Auth & error handling middleware
-MODEL/ # Mongoose schemas/models
-ROUTERS/ # Route definitions
-app.js # Express app setup
-server.js # App entry point
-package.json
-.gitignore
 
+  <ul>
+    <li>CONFIG/ Database connection & config files</span></li>
+    <li>CONTROLLERS/ Business logic for routes</span></li>
+    <li>MIDDLEWARES/ <span style="color: #888;"># Auth & error handling middleware</span></li>
+    <li>MODEL/ <span style="color: #888;"># Mongoose schemas/models</span></li>
+    <li>ROUTERS/ <span style="color: #888;"># Route definitions</span></li>
+    <li class="file">app.js <span style="color: #888;"># Express app setup</span></li>
+    <li class="file">server.js <span style="color: #888;"># App entry point</span></li>
+    <li class="file">package.json</li>
+    <li class="file">.gitignore</li>
+  </ul>
 ---
 
 ## 🚀 Features
