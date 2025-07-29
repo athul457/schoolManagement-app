@@ -8,15 +8,15 @@ This is the **backend API** for a School Management System, built with **Node.js
 
 
   <ul>
-    <li>CONFIG/ Database connection & config files</span></li>
-    <li>CONTROLLERS/ Business logic for routes</span></li>
-    <li>MIDDLEWARES/ <span style="color: #888;"># Auth & error handling middleware</span></li>
-    <li>MODEL/ <span style="color: #888;"># Mongoose schemas/models</span></li>
-    <li>ROUTERS/ <span style="color: #888;"># Route definitions</span></li>
-    <li class="file">app.js <span style="color: #888;"># Express app setup</span></li>
-    <li class="file">server.js <span style="color: #888;"># App entry point</span></li>
-    <li class="file">package.json</li>
-    <li class="file">.gitignore</li>
+    <li>--CONFIG/ Database connection & config files</span></li>
+    <li>--CONTROLLERS/ Business logic for routes</span></li>
+    <li>--MIDDLEWARES/ <span style="color: #888;"># Auth & error handling middleware</span></li>
+    <li>--MODEL/ <span style="color: #888;"># Mongoose schemas/models</span></li>
+    <li>--ROUTERS/ <span style="color: #888;"># Route definitions</span></li>
+    <li class="file">--app.js <span style="color: #888;"># Express app setup</span></li>
+    <li class="file">--server.js <span style="color: #888;"># App entry point</span></li>
+    <li class="file">--package.json</li>
+    <li class="file">--.gitignore</li>
   </ul>
 ---
 
