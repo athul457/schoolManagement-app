@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Student = require("../../MODEL/ACCADEMIC/Student");
 const Exam = require("../../MODEL/ACCADEMIC/Exam");
+const ExamResults = require("../../MODEL/ACCADEMIC/ExamResults");
 
 // ! student register
 
@@ -61,7 +62,7 @@ exports.loginStudent = asyncHandler(async (req, res) => {
 
 // ! get all students
 exports.getAllStudent = asyncHandler(async (req, res) => {
-  const student = await Student.find();
+  const student = await Student.find().populate("examResults");
   res.status(200).json({
     status: "ok",
     message: "all student fetched successfully",
@@ -76,6 +77,7 @@ exports.getSingleStudent = asyncHandler(async (req, res) => {
   }
 
   const student = await Student.findById(id).select("-password");
+
   if (!student) {
     res.status(404);
     throw new Error("Student Not Found");
@@ -194,10 +196,13 @@ exports.writeExam = asyncHandler(async (req, res) => {
   let wrongAnsers = 0;
   let grade = 0;
   let totalQuestions = 0;
+  let status = "";
+  let remark = "";
+  let answerdQuestions = [];
+  totalQuestions = questions.length;
 
   for (let i = 0; i < questions.length; i++) {
     const question = questions[i];
-    totalQuestions = questions.length;
     if (question.correctAnswer === studentAnswers[i]) {
       correctAnswer++;
       score++;
@@ -207,6 +212,65 @@ exports.writeExam = asyncHandler(async (req, res) => {
     }
   }
 
+  // grade
+  grade = (correctAnswer / totalQuestions) * 100;
+
+  // answerd questions
+  answerdQuestions = questions.map((question) => {
+    return {
+      questions: question.questions,
+      correctAnswer: question.correctAnswer,
+      isCorrect: question.isCorrect,
+    };
+  });
+
+  // status
+  if (grade >= 50) {
+    status = "passed";
+  } else {
+    status = "failed";
+  }
+
+  // remark
+  if (grade >= 80) {
+    remark = "Excellent";
+  } else if (grade >= 70) {
+    remark = "Very Good";
+  } else if (grade >= 60) {
+    remark = "Good";
+  } else if (grade >= 50) {
+    remark = "Fair";
+  } else {
+    remark = "Poor";
+  }
+
+  const examResults = await ExamResults.create({
+    student: student._id,
+    exam: exam._id,
+    subject: exam.subject,
+    grade: grade,
+    score: score,
+    passMark: exam.passMark,
+    status: status,
+    remark: remark,
+    position: 0,
+    classLevels: exam.classLevel,
+    academicTerm: exam.academicTerm,
+    academicYear: exam.academicYear,
+  });
+
+  student.examResults.push(examResults._id);
+  await student.save();
+
+  const examResultsExist = await ExamResults.findOne({
+    student: student._id,
+    exam: exam._id,
+  });
+
+  if (examResultsExist) {
+    res.status(400);
+    throw new Error("You already attended the exam");
+  }
   res.status(200).json({
     status: "writing exam",
     totalQuestions,
@@ -214,5 +278,10 @@ exports.writeExam = asyncHandler(async (req, res) => {
     correctAnswer,
     wrongAnsers,
     score,
+    grade,
+    answerdQuestions,
+    status,
+    remark,
+    examResults,
   });
 });

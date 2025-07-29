@@ -39,7 +39,7 @@ const examResultSchema = new Schema(
     remarks: {
       type: String,
       required: true,
-      enum: ["Excellent", "Good", "Poor"],
+      enum: ["Excellent", "Very Good", "Good", "Fair", "Poor"],
       default: "Poor",
     },
     position: {
