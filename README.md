@@ -34,10 +34,10 @@ package.json
 
 ### 1. Clone the repository
 
-##git clone https://github.com/yourusername/schoolManagement-app-master.git
+## git clone https://github.com/yourusername/schoolManagement-app-master.git
 cd schoolManagement-app-master
 
-##Dependencies
+## Dependencies
 - **express
 - **mongoose
 - **bcryptjs
